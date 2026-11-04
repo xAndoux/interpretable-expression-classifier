@@ -1,5 +1,8 @@
 # Interpretable facial-expression classifier (MATLAB)
 
+[![CI](https://img.shields.io/github/actions/workflow/status/xAndoux/interpretable-expression-classifier/octave.yml?branch=main&label=octave%20tests)](https://github.com/xAndoux/interpretable-expression-classifier/actions/workflows/octave.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A transparent, dependency-light MATLAB baseline for classifying **visible facial-expression categories** in a labeled dataset: seven classes, bottom-up spatial features, and a semantic geometric layer that measures eyebrow height, eye openness, mouth openness, and lip curvature directly from 68-point landmarks.
 
 This repository evaluates only what its own code measures. It does not claim an accuracy figure from any external source, and it implies no Rice University or other institutional affiliation or endorsement. Expressions are not a direct reading of a person's inner emotional state, intentions, or identity. Do not use this code for consequential decisions about people.
