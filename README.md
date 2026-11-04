@@ -136,7 +136,7 @@ Exact duplicates are rejected **before splitting**, comparing normalized decoded
 
 `scripts/run_portable_tests.m` (invoked by `run_tests.m`) exercises class ordering, resizing, preprocessing, spatial descriptors, deterministic image/identity splits, train-only normalization, metrics with known answers, centroid/ridge fitting, duplicate rejection, and end-to-end synthetic determinism. Temporary generated PNGs are test fixtures, not face data.
 
-`.github/workflows/octave.yml` installs Octave on Ubuntu, runs the same tests, runs the synthetic smoke demo, and uploads the generated report. The workflow path assumes this project is located at `portfolio-rebuild/interpretable-expression-classifier` in its repository. Adjust the two `working-directory` values and artifact path if moving it. CI status must be checked on an actual pushed run; the file's existence is not evidence that GitHub Actions passed.
+`.github/workflows/octave.yml` installs Octave on Ubuntu, runs the same tests, runs the synthetic smoke demo, and uploads the generated report. The workflow runs from the repository root. CI status must be checked on an actual pushed run; the file's existence is not evidence that GitHub Actions passed.
 
 ## Limitations
 
