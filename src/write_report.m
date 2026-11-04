@@ -5,8 +5,8 @@ if fid < 0
     error('expression:ReportFailure', 'Cannot create report: %s', filename);
 end
 cleanup = onCleanup(@() fclose(fid)); %#ok<NASGU>
-fprintf(fid, '# Reconstruction evaluation report\n\n');
-fprintf(fid, '**Scope:** new, independently authored baseline; not recovered original code.\n\n');
+fprintf(fid, '# Expression classifier evaluation report\n\n');
+fprintf(fid, '**Scope:** this repository evaluates only the code it contains.\n\n');
 fprintf(fid, '**Dataset:** %s\n\n', datasetDescription);
 fprintf(fid, ['Facial-expression labels describe visible appearance categories, not inner emotional truth. ' ...
     'No historical accuracy is reproduced or claimed. No affiliation or endorsement is implied.\n\n']);

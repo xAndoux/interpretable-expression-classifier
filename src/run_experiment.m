@@ -30,6 +30,6 @@ results.testMetrics = classification_metrics(dataset.labels(test), testPredicted
 results.testPredicted = testPredicted;
 results.dataset = dataset;
 results.config = config;
-results.evaluationNote = ['This is an execution/evaluation of this new implementation on the supplied ' ...
-    'dataset only. It is not a reproduction of the historical project or its reported accuracy.'];
+results.evaluationNote = ['This evaluation measures only the code in this repository on the supplied ' ...
+    'dataset. It uses no external model, weights, or previously reported accuracy figure.'];
 end

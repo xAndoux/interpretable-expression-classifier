@@ -1,8 +1,8 @@
-# Interview notes: interpretable expression-classifier reconstruction
+# Interview notes: interpretable facial-expression classifier
 
 ## How should this project be introduced?
 
-“After losing the earlier academic project code, I built a clean-room MATLAB reconstruction from a high-level description. It is a transparent seven-class visible-expression baseline with spatial features, strict data separation, and reproducible evaluation. It is not recovered original code, and I do not claim that it reproduces the historically mentioned ~81% accuracy.”
+“This is a transparent seven-class visible-expression baseline with bottom-up spatial features, a semantic geometric layer measured from 68-point landmarks, strict data separation, and reproducible evaluation. It measures only what the code in this repository produces — I make no claim to reproduce any external accuracy figure.”
 
 Use “facial-expression classifier,” not “emotion detector.” Dataset labels describe visible appearance categories; they do not establish a person's inner emotional state. No institutional affiliation or endorsement is implied.
 

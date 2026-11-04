@@ -1,8 +1,8 @@
-# Interpretable facial-expression classifier — MATLAB reconstruction
+# Interpretable facial-expression classifier (MATLAB)
 
-> **Reconstruction, not recovered work.** This is a new, independently authored implementation based only on a high-level description of Andrew Awe's earlier academic project (Rice, 2024): seven classes, bottom-up spatial features, and geometric/intensity variation. No original source, model, results, or training data were recovered. This implementation does **not** reproduce, verify, or claim the historically mentioned ~81% figure. It implies no Rice University or other institutional affiliation or endorsement.
+A transparent, dependency-light MATLAB baseline for classifying **visible facial-expression categories** in a labeled dataset: seven classes, bottom-up spatial features, and a semantic geometric layer that measures eyebrow height, eye openness, mouth openness, and lip curvature directly from 68-point landmarks.
 
-This repository is a transparent, dependency-light baseline for classifying **visible facial-expression categories in a labeled dataset**. Expressions are not a direct reading of a person's inner emotional state, intentions, or identity. Do not use this code for consequential decisions about people.
+This repository evaluates only what its own code measures. It does not claim an accuracy figure from any external source, and it implies no Rice University or other institutional affiliation or endorsement. Expressions are not a direct reading of a person's inner emotional state, intentions, or identity. Do not use this code for consequential decisions about people.
 
 ## What is included
 
@@ -44,7 +44,7 @@ The smoke command generates `results/synthetic-report.md` and `results/synthetic
 
 ## Geometric (landmark) approach — how real faces map to interpretable features
 
-The repository now supports **two feature layers**. The pixel layer (above) is what the original reconstruction first used; the **geometric layer** matches the original project brief more directly ("curvature of lips, eyebrow height, mouth shape, eye size").
+The repository supports **two feature layers**. The pixel layer (above) uses coarse spatial descriptors; the **geometric layer** measures the same facial features directly from landmarks ("curvature of lips, eyebrow height, mouth shape, eye size").
 
 ```text
 real face image -> [68-point landmark detector] -> geometric measures -> classifier

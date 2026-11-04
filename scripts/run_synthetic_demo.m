@@ -14,8 +14,8 @@ description = ['Generated abstract geometric patterns ONLY. This synthetic smoke
     'proves code execution, not facial-expression recognition accuracy. No face images are used.'];
 write_report(results, fullfile(output, 'synthetic-report.md'), description);
 save_results(results, fullfile(output, 'synthetic-results.mat'));
-fprintf(['Synthetic PATTERN smoke run complete. These measurements are not face ' ...
-    'accuracy or a reproduction of any historical benchmark.\n']);
+fprintf(['Synthetic PATTERN smoke run complete. These are execution-check ' ...
+    'measurements on generated patterns, not facial-expression accuracy.\n']);
 fprintf('Selected model: %s\n', results.model.type);
 fprintf('Synthetic held-out test accuracy: %.6f; macro F1: %.6f\n', ...
     results.testMetrics.accuracy, results.testMetrics.macroF1);
