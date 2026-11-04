@@ -20,6 +20,22 @@ A 6×6 grid supplies block means, population standard deviations, mean horizonta
 
 Global pixel variance loses location. A dark region near the mouth and one near the eye can have the same global statistics but different spatial meaning. Blocks preserve coarse location and local contrast; gradients describe directional changes; reflection error provides a limited symmetry cue. These descriptors remain sensitive to alignment and are not causal explanations of an expression.
 
+## The geometric (landmark) layer — how "lip curvature, eyebrow height, eye size" are measured
+
+The pixel feature layer is one path; the repository also contains a **geometric layer** that matches the original project brief more literally. `extract_geometric_features` takes a standard 68-point landmark layout (IBUG-68, same convention as Dlib / MediaPipe Face Mesh) and measures named facial actions directly:
+
+- **Brow height & brow-to-eye gap** — raised brows (surprise/fear) vs. lowered (anger).
+- **Inter-brow distance** — brows pulled together (anger/disgust).
+- **Eye openness** — classic eye-aspect-ratio; wide vs. narrowed eyes.
+- **Brow slope** — inner brow raised (sad) vs. outer raised.
+- **Mouth width & mouth openness** — jaw drop for surprise.
+- **Lip curvature** — corners up (happy) vs. down (sad).
+- **Interpretable proxies** for smile, surprise, and anger.
+
+Every feature is a scale-invariant ratio of the interocular distance, so it is comparable across image sizes. This is the classic FACS-inspired bottom-up geometry: each prediction can be explained as "brows lowered and pulled together + narrowed eyes → anger."
+
+Because the repository does not bundle a licensed face dataset or a detector, the geometric layer is exercised with a **synthetic 68-point landmark generator** that lays out distinct facial-action geometry per expression. `tests/test_geometric_features.m` asserts the measurements are correct (happy > sad lip curvature; surprise raises brows/eyes/mouth; angry lowers brows and pulls them together), and `run_geometric_demo` runs the whole pipeline. These are synthetic geometry checks — cleanly separable and expected to score high — **not** facial-expression accuracy on real faces. Putting the layer to real use requires a landmark detector and an identity-disjoint licensed dataset, as described in the README.
+
 ## How do the classifiers work?
 
 Nearest centroid standardizes features using training means/scales, computes each class centroid, and selects the smallest squared Euclidean distance. Ridge uses one-vs-rest targets and solves

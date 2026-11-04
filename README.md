@@ -9,6 +9,8 @@ This repository is a transparent, dependency-light baseline for classifying **vi
 - Seven canonical classes: `angry`, `disgust`, `fear`, `happy`, `sad`, `surprise`, `neutral`.
 - Grayscale conversion and a built-in bilinear resize to 64×64; median/IQR contrast normalization and clipping.
 - Coarse spatial 6×6 block mean, standard deviation, horizontal/vertical gradient, gradient magnitude, and reflection-error features, plus row/column profiles (264 features).
+- **Semantic geometric features** (`extract_geometric_features.m`): from a standard 68-point landmark layout (`IBUG-68`, the Dlib/MediaPipe convention) it measures named facial actions — brow height, brow-to-eye gap, inter-brow distance, eye openness (classic EAR), brow slope, mouth width, mouth openness, and lip curvature — plus three interpretable combination proxies for smile, surprise, and anger. These are the bottom-up semantic measurements described in the original project brief, computed as scale-invariant ratios of the interocular distance.
+- A synthetic 68-point landmark generator (`make_synthetic_landmark_dataset.m`) that lays out distinct facial-action geometry per expression so the geometric layer is testable without a licensed face dataset or shipped detector.
 - Deterministic train/validation/test partitioning and explicit duplicate rejection.
 - Z-score statistics learned from training rows only, with safe handling of constant features.
 - Nearest-centroid and one-vs-rest ridge candidates using ordinary MATLAB matrix algebra.
@@ -39,6 +41,31 @@ octave --no-gui --quiet --eval "run_smoke"
 ```
 
 The smoke command generates `results/synthetic-report.md` and `results/synthetic-results.mat`. **The images are generated geometric patterns, not faces.** Any measured values only demonstrate deterministic execution on separable synthetic patterns; they are not facial-expression accuracy, a benchmark, or evidence of useful real-world performance. Generated outputs are gitignored.
+
+## Geometric (landmark) approach — how real faces map to interpretable features
+
+The repository now supports **two feature layers**. The pixel layer (above) is what the original reconstruction first used; the **geometric layer** matches the original project brief more directly ("curvature of lips, eyebrow height, mouth shape, eye size").
+
+```text
+real face image -> [68-point landmark detector] -> geometric measures -> classifier
+                                                  (Dlib / MediaPipe Face Mesh)
+```
+
+**This repository does not ship a face detector or a licensed dataset.** Instead, `extract_geometric_features.m` consumes a **68×2 landmark matrix** and measures semantically named facial actions directly:
+
+- **Brow height** & **brow-to-eye gap** — eyebrows raised (surprise/fear) or lowered (anger) relative to the eye centre.
+- **Inter-brow distance** — brows pulled together (anger/disgust).
+- **Eye openness** — classic eye-aspect-ratio; wide (surprise/fear) vs. narrowed (anger).
+- **Brow slope** — inner brow raised (sad) vs. outer raised.
+- **Mouth width** and **mouth openness** — jaw drop for surprise.
+- **Lip curvature** — mouth corners turned up (happy) vs. down (sad).
+- **Interpretable proxies** for smile, surprise, and anger that combine the above.
+
+Every feature is **scale-invariant** (divided by the interocular distance), so results are comparable across image sizes. This is the classic FACS-inspired "bottom-up" geometry that makes each prediction explainable: *"brows lowered and pulled together + narrowed eyes -> anger."*
+
+**Why a synthetic generator + test?** To prove the geometric layer actually measures what it claims without bundling a face detector or a licensed dataset, `make_synthetic_landmark_dataset.m` lays out distinct 68-point geometries per expression, and `scripts/run_geometric_demo.m` runs the full pipeline plus `tests/test_geometric_features.m` asserts the measurements are correct (happy > sad lip curvature, surprise raises brows/eyes/mouth, angry lowers brows and pulls them together). These are **synthetic geometry checks, not facial-expression accuracy** on real faces.
+
+**To use it on real faces** you need to run a landmark detector and pass the resulting 68×2 points to `extract_geometric_features`, then follow the same train/validate/test discipline below (ideally identity-disjoint). The repo's honest baseline shows high separation on clean synthetic geometry, which is expected and is *not* evidence of real-world face accuracy.
 
 ## Real-data experiment
 

@@ -18,9 +18,17 @@ jobs:
         run: octave --no-gui --quiet --eval "run_tests"
       - name: Run synthetic execution smoke demo
         run: octave --no-gui --quiet --eval "run_smoke"
+      - name: Run geometric (landmark) demo
+        run: octave --no-gui --quiet --eval "addpath('scripts'); run_geometric_demo"
       - name: Upload generated synthetic report
         uses: actions/upload-artifact@v4
         with:
           name: synthetic-pattern-report
           path: results/synthetic-report.md
+          if-no-files-found: error
+      - name: Upload generated geometric demo report
+        uses: actions/upload-artifact@v4
+        with:
+          name: geometric-demo-report
+          path: results/geometric-demo-report.md
           if-no-files-found: error
