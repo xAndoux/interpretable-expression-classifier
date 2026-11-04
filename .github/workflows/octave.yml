@@ -1,0 +1,28 @@
+name: Octave tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  portable-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends octave
+      - name: Run MATLAB-compatible unit tests
+        working-directory: portfolio-rebuild/interpretable-expression-classifier
+        run: octave --no-gui --quiet --eval "run_tests"
+      - name: Run synthetic execution smoke demo
+        working-directory: portfolio-rebuild/interpretable-expression-classifier
+        run: octave --no-gui --quiet --eval "run_smoke"
+      - name: Upload generated synthetic report
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-pattern-report
+          path: portfolio-rebuild/interpretable-expression-classifier/results/synthetic-report.md
+          if-no-files-found: error
